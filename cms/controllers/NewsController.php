@@ -2,19 +2,32 @@
 
 namespace controllers;
 
+use core\Template;
+
 class NewsController
 {
     // news/add
     public function actionAdd(){
-        echo 'NewsController -> actionAdd';
+        $template = new Template('views/news/add.php');
+        return[
+            'Content' => $template->getHTML(),
+            'Title' => 'Додавання новини'
+        ];
     }
 
     // news/index
     public function actionIndex(){
-        echo 'NewsController -> actionIndex';
+        $template = new Template('views/news/index.php');
+       return[
+           'Content' => $template->getHTML(),
+           'Title' => 'Список новин'
+       ];
     }
 
     public function actionView($params){
-        var_dump($params);
+        return[
+            'Content' => 'News view',
+            'Title' => 'Перегляд новини'
+        ];
     }
 }
