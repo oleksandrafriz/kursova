@@ -13,3 +13,4 @@ else
 
 $router = new core\Router($route);
 $router->run();
+$router->done();
