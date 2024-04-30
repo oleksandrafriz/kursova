@@ -2,32 +2,23 @@
 
 namespace controllers;
 
+use core\Controller;
 use core\Template;
 
-class NewsController
+class NewsController extends Controller
 {
     // news/add
     public function actionAdd(){
-        $template = new Template('views/news/add.php');
-        return[
-            'Content' => $template->getHTML(),
-            'Title' => 'Додавання новини'
-        ];
+        return $this->render();
     }
 
     // news/index
     public function actionIndex(){
-        $template = new Template('views/news/index.php');
-       return[
-           'Content' => $template->getHTML(),
-           'Title' => 'Список новин'
-       ];
+        return $this->render();
     }
 
+    // news/view
     public function actionView($params){
-        return[
-            'Content' => 'News view',
-            'Title' => 'Перегляд новини'
-        ];
+        return $this->render();
     }
 }
