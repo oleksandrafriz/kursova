@@ -14,15 +14,15 @@ class Config
             if(substr($config_file, -4) === '.php'){
                $path = $directory.'/'.$config_file;
                 include($path);
+
             }
         }
 
         $this->params = [];
 
         foreach ($Config as $config){
-            foreach ($config as $key => $value) {
+            foreach ($config as $key => $value)
                 $this->$key = $value;
-            }
         }
     }
 
