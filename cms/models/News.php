@@ -2,23 +2,17 @@
 
 namespace models;
 
-class News
+use core\Core;
+use core\Model;
+
+/**
+ * @property string $title заголовок новини
+ * @property string $text текст новини
+ * @property string $short_text короткий текст новини
+ * @property string $date дата новини
+ * @property string $id ID новини
+ */
+class News extends Model
 {
-    public $id;
-    public $title;
-    public $text;
-    public $short_text;
-    public $date;
-
-    public function __construct()
-    {
-
-    }
-
+    public $table = 'news';
 }
-
-$news = new News::findById(10);
-$news->text = 'text';
-//$news->title = 'title';
-//$news->date = '2024-04-30 17:10';
-$news->save();
