@@ -3,6 +3,9 @@
 /** @var string $Content */
 if(empty($Title))
     $Title = '';
+
+if(empty($Content))
+    $Content = '';
 ?>
 
 
@@ -45,7 +48,9 @@ if(empty($Title))
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php if(\models\Users::IsUserLogged()) : ?>
                         <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <?php endif; ?>
                     </a>
                     <ul class="dropdown-menu text-small">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
@@ -54,7 +59,9 @@ if(empty($Title))
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        <?php if(\models\Users::IsUserLogged()) : ?>
+                        <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
