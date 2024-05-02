@@ -18,13 +18,23 @@ class NewsController extends Controller
     public function actionIndex(){
         $db = Core::get()->db;
 
-        $news = new News();
-        $news->id = 1;
-        $news->title = '!!!! text !!!!!';
-        $news->text = '!!!! text !!!!!';
-        $news->short_text = '!!!! text !!!!!';
-        $news->date = '0204-05-01 21:21:00';
-        $news->save(); //update, insert
+//      News::deleteById(6); // видалення за id
+//      News::deleteByCondition(['title' => '!!!! text !!!!!']); // видалення за умовою
+        /*$res = News::findById(2); // знаходження за id
+        var_dump($res);
+        die;*/
+
+        /*$res = News::findByCondition(['id' => 2]); // знаходження за умовою
+        var_dump($res);
+        die;*/
+
+//        $news = new News();
+//        $news->id = 1;
+//        $news->title = '!!!! text !!!!!';
+//        $news->text = '!!!! text !!!!!';
+//        $news->short_text = '!!!! text !!!!!';
+//        $news->date = '0204-05-01 21:21:00';
+//        $news->save(); //update, insert
 
         /*$rows = $db->select("news", ["title"], [
             'id' => 1
@@ -50,7 +60,11 @@ class NewsController extends Controller
         ]
         );*/
 
-        return $this->render();
+        //Core::get()->session->set('user_id', 1); //записати в сесію
+        //Core::get()->session->setValues(['user_id' => 1, 'user_login' => 'Sasha']); //записати декілька в сесію
+        //$id = Core::get()->session->get('user_id'); //зчитування з сесії
+
+        return $this->render('views/news/view.php');
     }
 
     // news/view
