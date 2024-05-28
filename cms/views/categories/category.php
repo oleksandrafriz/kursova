@@ -52,11 +52,17 @@ ob_start();
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:hover {
             transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
         }
 
         .card-img-top {
@@ -79,6 +85,16 @@ ob_start();
             font-size: 1em;
             color: #777;
         }
+
+        .card-text.price {
+            font-size: 1.2em;
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .card-text span {
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -87,11 +103,13 @@ ob_start();
         <?php foreach ($products as $product): ?>
             <div class="col">
                 <div class="card h-100">
-                    <img src="https://via.placeholder.com/300x200?text=<?= isset($product['name']) ? urlencode($product['name']) : 'No Name' ?>" class="card-img-top" alt="<?= isset($product['name']) ? htmlspecialchars($product['name']) : 'No Name' ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= isset($product['name']) ? htmlspecialchars($product['name']) : 'No Name' ?></h5>
-                        <p class="card-text">Ціна: <?= isset($product['price']) ? htmlspecialchars($product['price']) : 'N/A' ?> грн</p>
-                    </div>
+                    <a href="/products/product/<?= htmlspecialchars($product['id'] ?? '') ?>" class="card-link">
+                        <img src="https://via.placeholder.com/300x200?text=<?= isset($product['name']) ? urlencode($product['name']) : '' ?>" alt="<?= htmlspecialchars($product['name'] ?? '') ?>" class="card-img-top">
+                        <div class="card-body">
+                            <h2 class="card-title"><?= htmlspecialchars($product['name'] ?? 'Unnamed Product') ?></h2>
+                            <p class="card-text price"><span>Price:</span> <?= htmlspecialchars($product['price'] ?? 'N/A') ?> UAH</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>

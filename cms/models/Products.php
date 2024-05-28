@@ -22,23 +22,16 @@ class Products extends Model
 {
     public static $tableName = 'jewelry';
 
+    public static function getProductById(int $id)
+    {
+        $product = Core::get()->db->select(self::$tableName, '*', ['id' => $id]);
+        //var_dump($product); // Debug statement to check database retrieval
+        return $product ? $product[0] : null;
+    }
 
     public static function getProductsByCategory(int $categoryId)
     {
         $products = Core::get()->db->select(self::$tableName, '*', ['category_id' => $categoryId]);
-        //var_dump($products); // Debugging output
         return $products;
     }
-
-
-    public static function getProductById(int $id)
-    {
-        return Core::get()->db->select(self::$tableName, ['id' => $id], ['id', 'name', 'price']);
-    }
-
-    public static function getAllProducts()
-    {
-        return Core::get()->db->select(self::$tableName);
-    }
-
 }
