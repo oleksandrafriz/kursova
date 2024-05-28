@@ -10,8 +10,10 @@ class Core
     public $router;
     public $template;
     public $db;
+    public Controller $controllerObject;
     private static $instance;
     public $session;
+
 
     private function __construct(){
         $this->template = new Template($this->defaultLayoutPath);

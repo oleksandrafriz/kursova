@@ -27,14 +27,15 @@ class Router
 
         if(class_exists($controller)){
             $controllerObject = new $controller();
+            Core::get()->controllerObject = $controllerObject;
             if(method_exists($controller, $method)){
                 array_splice($parts, 0, 2);
-               return $controllerObject -> $method($parts);
+                return $controllerObject -> $method($parts);
             }else
                 $this->error(404);
         }else
             $this->error(404);
-            //!!!return
+        //!!!return
     }
 
     public function done()

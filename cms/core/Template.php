@@ -6,6 +6,7 @@ class Template
 {
     protected $templateFilePath;
     protected $paramsArray;
+    public ?Controller $controller = null;
 
     public function __set($name, $value)
     {
@@ -44,6 +45,10 @@ class Template
          * $Content = 'контент сайту';
          * $Title = 'заголовок сайту';
          * */
+
+        if (Core::get()->controllerObject !== null) {
+            $this->controller = Core::get()->controllerObject;
+        }
         extract($this->paramsArray);
         include ($this->templateFilePath);
         $str = ob_get_contents();

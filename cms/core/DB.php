@@ -17,45 +17,53 @@ class DB
         );
     }
 
-    protected function where($where)
-    {
-        if (is_array($where)){
-            $where_string = "WHERE ";
-            $where_fields = array_keys($where);
-            $parts = [];
-            foreach ($where_fields as $field){
-                $parts [] = "{$field} = :{$field}";
-            }
-            $where_string .= implode(' AND ', $parts);
-        }else
-            if(is_string($where))
-                $where_string = $where;
-            else
-                $where_string = '';
-        return $where_string;
-    }
-
-
     public function select($table, $fields = "*", $where = null)
     {
-        if(is_array($fields))
+        if (is_array($fields)) {
             $fields_string = implode(', ', $fields);
-        else
-            if(is_string($fields))
+        } else if (is_string($fields)) {
             $fields_string = $fields;
-
-            else
-                $fields_string = "*";
+        } else {
+            $fields_string = "*";
+        }
 
         $where_string = $this->where($where);
 
         $sql = "SELECT {$fields_string} FROM {$table} {$where_string}";
         $sth = $this->pdo->prepare($sql);
-        foreach ($where as $key => $value)
-            $sth->bindValue(":{$key}", $value);
-       $sth->execute();
-       return $sth->fetchAll();
+
+        // Debugging output
+        //var_dump($sql);
+        if (is_array($where)) {
+            foreach ($where as $key => $value) {
+                $sth->bindValue(":{$key}", $value);
+            }
+            //var_dump($where); // Debugging output to check bound parameters
+        }
+
+        $sth->execute();
+        return $sth->fetchAll();
     }
+
+    protected function where($where)
+    {
+        if (is_array($where)) {
+            $where_string = "WHERE ";
+            $where_fields = array_keys($where);
+            $parts = [];
+            foreach ($where_fields as $field) {
+                $parts[] = "{$field} = :{$field}";
+            }
+            $where_string .= implode(' AND ', $parts);
+        } else if (is_string($where)) {
+            $where_string = $where;
+        } else {
+            $where_string = '';
+        }
+        return $where_string;
+    }
+
+
 
     public function insert($table, $row_to_insert){
         $fields_list = implode(", ", array_keys($row_to_insert));
