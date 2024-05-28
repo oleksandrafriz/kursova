@@ -1,5 +1,6 @@
 <?php
 $this->Title = 'Вхід на сайт';
+/** @var string $error_message  Повідомлення про помилку*/
 ?>
 
 
