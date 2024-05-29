@@ -64,7 +64,7 @@ class NewsController extends Controller
         //Core::get()->session->setValues(['user_id' => 1, 'user_login' => 'Sasha']); //записати декілька в сесію
         //$id = Core::get()->session->get('user_id'); //зчитування з сесії
 
-        return $this->render('views/news/view.php');
+        return $this->render('views/news/index.php');
     }
 
     // news/view

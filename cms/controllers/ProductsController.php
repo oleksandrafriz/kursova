@@ -8,13 +8,18 @@ use models\Categories;
 
 class ProductsController extends Controller
 {
+    public function actionIndex()
+    {
+        $products = Products::getAllProducts();
+        $this->render(['products' => $products]);
+    }
+
     public function actionProduct($id)
     {
         if (is_array($id)) {
             $id = array_shift($id);
         }
         $id = (int)$id;
-        //echo "Product ID: " . $id; // Debug statement to check the received ID
 
         $product = Products::getProductById($id);
 
@@ -24,7 +29,6 @@ class ProductsController extends Controller
             return;
         }
 
-        //var_dump($product); // Debug statement to check fetched product data
         $this->render(['product' => $product]);
     }
 }

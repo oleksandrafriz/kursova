@@ -35,35 +35,37 @@ if(empty($Content))
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
-                    <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+                    <li><a href="/" class="nav-link px-2 link-secondary">Головна</a></li>
+                    <li><a href="/products" class="nav-link px-2 link-body-emphasis">Усі прикраси</a></li>
+                    <li><a href="/categories" class="nav-link px-2 link-body-emphasis">Категорії</a></li>
+                    <li><a href="/stones" class="nav-link px-2 link-body-emphasis">Каталог каменів</a></li>
+                    <?php if(!\models\Users::IsUserLogged()) : ?>
+                    <li><a href="/users/login" class="nav-link px-2 link-body-emphasis">Увійти</a></li>
+<!--                        <li><a href="/users/register" class="nav-link px-2 link-body-emphasis">Зареєструватись</a></li>-->
+                    <?php endif; ?>
                 </ul>
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
                 </form>
-
+                <?php if(\models\Users::IsUserLogged()) : ?>
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php if(\models\Users::IsUserLogged()) : ?>
                         <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                        <?php endif; ?>
                     </a>
+
                     <ul class="dropdown-menu text-small">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <?php if(\models\Users::IsUserLogged()) : ?>
-                        <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
-                        <?php endif; ?>
+<!--                        <li>-->
+<!--                            <hr class="dropdown-divider">-->
+<!--                        </li>-->
+                        <li><a class="dropdown-item" href="/users/logout">Вийти</a></li>
                     </ul>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </header>
@@ -75,13 +77,21 @@ if(empty($Content))
 
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Головна</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Каталог каменів</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Про нас</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Умови роботи</a></li>
         </ul>
         <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+        <div class="d-flex justify-content-center">
+            <a href="#" class="text-body-secondary mx-2"><img src="instagram_icon.png" alt="Instagram"></a>
+            <a href="#" class="text-body-secondary mx-2"><img src="facebook_icon.png" alt="Facebook"></a>
+            <a href="#" class="text-body-secondary mx-2"><img src="etsy_icon.png" alt="Etsy"></a>
+        </div>
+        <div class="text-center text-body-secondary mt-3">
+            <p>Контакти: +380 (99) 48 78 049 | workshop.form.a@gmail.com</p>
+            <p>Години роботи: Прийом замовлень: на сайті цілодобово | Обробка замовлень: 10:00-17:00 | Виготовлення: Пн-Сб 10:00 - 17:00</p>
+        </div>
     </footer>
 </div>
 

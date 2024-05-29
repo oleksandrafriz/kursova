@@ -70,7 +70,7 @@ ob_start();
 <body>
 <div class="container">
     <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=<?= urlencode($product['name'] ?? 'Product') ?>" alt="<?= htmlspecialchars($product['name'] ?? 'Product') ?>" class="product-img">
+        <img src="data:image/jpeg;base64,<?= htmlspecialchars($product['image'] ?? '') ?>" alt="<?= htmlspecialchars($product['name'] ?? 'Product') ?>" class="product-img">
         <div class="product-details">
             <div class="product-price"><strong>Price:</strong> <?= htmlspecialchars($product['price'] ?? '~') ?> UAH</div>
             <table>

@@ -23,7 +23,6 @@ class CategoriesController extends Controller
             $categoryId = array_shift($categoryId);
         }
         $categoryId = (int)$categoryId;
-        //var_dump($categoryId); // Debugging output to check $categoryId
 
         $category = Categories::getCategoryById($categoryId);
         $products = Products::getProductsByCategory($categoryId);
@@ -34,8 +33,5 @@ class CategoriesController extends Controller
         ];
 
         $this->render($data);
-
-
     }
-
 }

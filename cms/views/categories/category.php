@@ -104,7 +104,7 @@ ob_start();
             <div class="col">
                 <div class="card h-100">
                     <a href="/products/product/<?= htmlspecialchars($product['id'] ?? '') ?>" class="card-link">
-                        <img src="https://via.placeholder.com/300x200?text=<?= isset($product['name']) ? urlencode($product['name']) : '' ?>" alt="<?= htmlspecialchars($product['name'] ?? '') ?>" class="card-img-top">
+                        <img src="<?= isset($product['image']) ? htmlspecialchars($product['image']) : 'https://via.placeholder.com/300x200?text=' . (isset($product['name']) ? urlencode($product['name']) : '') ?>" alt="<?= htmlspecialchars($product['name'] ?? '') ?>" class="card-img-top">
                         <div class="card-body">
                             <h2 class="card-title"><?= htmlspecialchars($product['name'] ?? 'Unnamed Product') ?></h2>
                             <p class="card-text price"><span>Price:</span> <?= htmlspecialchars($product['price'] ?? 'N/A') ?> UAH</p>
