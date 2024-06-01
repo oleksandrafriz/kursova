@@ -21,19 +21,37 @@ use core\Model;
 
 class Products extends Model
 {
-    public static function getAllProducts()
+    public static $tableName = 'jewelry';
+    protected $fieldsArray = [];
+
+    public static function getAllProducts($orderBy = 'price', $orderDirection = 'ASC', $minPrice = null, $maxPrice = null)
     {
-        return Core::get()->db->select(self::$tableName);
+        $where = [];
+        if (isset($minPrice) && isset($maxPrice)) {
+            $where = ['price BETWEEN ? AND ?' => [$minPrice, $maxPrice]];
+        }
+
+        $order = "{$orderBy} {$orderDirection}";
+
+        $products = Core::get()->db->select(self::$tableName, '*', $where, $order);
+        foreach ($products as &$product) {
+            if (!empty($product['image'])) {
+                $product['image'] = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+            }
+        }
+        return $products;
     }
 
-    public static $tableName = 'jewelry';
+
 
     public static function getProductById(int $id)
     {
         $product = Core::get()->db->select(self::$tableName, '*', ['id' => $id]);
         if ($product) {
             $product = $product[0];
-            $product['image'] = base64_encode($product['image']); // Закодувати зображення в Base64
+            if (!empty($product['image'])) {
+                $product['image'] = base64_encode($product['image']); // Encode image to Base64 for display
+            }
         }
         return $product;
     }
@@ -48,4 +66,29 @@ class Products extends Model
         }
         return $products;
     }
+
+    public function __set($name, $value)
+    {
+        $this->fieldsArray[$name] = $value;
+    }
+
+    public static function updateProduct(int $id, array $fields)
+    {
+        return Core::get()->db->update(self::$tableName, $fields, ['id' => $id]);
+    }
+
+
+    public static function deleteProduct(int $id)
+    {
+        return Core::get()->db->delete(self::$tableName, ['id' => $id]);
+    }
+
+    public static function addProduct(array $fields)
+    {
+        return Core::get()->db->insert(self::$tableName, $fields);
+    }
+
+
+
+
 }
