@@ -3,12 +3,15 @@
 $this->Title = 'Список категорій';
 ?>
     <style>
-        /* ... інший CSS-код ... */
-
         .card-img-top {
             width: 100%;
-            height: 200px; /* Встановіть потрібну висоту */
+            height: 200px;
             object-fit: cover;
+        }
+
+        .btn-primary{
+            background-color: #778D45;
+            border-color: #778D45;
         }
     </style>
 
