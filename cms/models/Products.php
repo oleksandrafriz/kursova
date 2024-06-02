@@ -50,7 +50,7 @@ class Products extends Model
         if ($product) {
             $product = $product[0];
             if (!empty($product['image'])) {
-                $product['image'] = base64_encode($product['image']); // Encode image to Base64 for display
+                $product['image'] = base64_encode($product['image']);
             }
         }
         return $product;
@@ -83,12 +83,32 @@ class Products extends Model
         return Core::get()->db->delete(self::$tableName, ['id' => $id]);
     }
 
-    public static function addProduct(array $fields)
+
+    public function save()
     {
-        return Core::get()->db->insert(self::$tableName, $fields);
+        $isInsert = false;
+        if (!isset($this->id)) {
+            $isInsert = true;
+        } else {
+            $value = $this->id;
+            if (empty($value)) {
+                $isInsert = true;
+            }
+        }
+
+        if ($isInsert) {
+            $result = Core::get()->db->insert(static::$tableName, $this->fieldsArray);
+            if (!$result) {
+                throw new \Exception('Failed to insert the record into the database.');
+            }
+        } else {
+            $result = Core::get()->db->update(static::$tableName, $this->fieldsArray, ['id' => $this->id]);
+            if (!$result) {
+                // Додати повідомлення про помилку
+                throw new \Exception('Failed to update the record in the database.');
+            }
+        }
     }
-
-
 
 
 }

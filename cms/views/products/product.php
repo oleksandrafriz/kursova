@@ -46,7 +46,6 @@ ob_start();
         }
         .product-price {
             font-size: 2em;
-            /* font-weight: bold; */
             color: #426044;
             margin-bottom: 10px;
             padding: 15px;
@@ -54,9 +53,7 @@ ob_start();
             background-color: #c2ddc1;
             text-align: center;
             display: flex;
-            /* justify-content: center; */
             align-items: center;
-            /* background-color: #0056b3; */
             width: 145px;
         }
         .product-details table {
@@ -71,20 +68,13 @@ ob_start();
         .product-details th {
             background-color: #f2f2f2;
         }
-
-        /*.edit-btn:hover {*/
-        /*    background-color: #0056b3;*/
-        /*}*/
         .form-control {
             margin-bottom: 10px;
         }
     </style>
 
-    <!-- jQuery -->
     <script src="/js/jquery-3.7.1.js"></script>
-    <!-- Bootstrap CSS -->
     <link href="/bootstrab/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS -->
     <script src="/bootstrab/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -102,31 +92,31 @@ ob_start();
             </div>
             <table>
                 <tr>
-                    <th>Characteristic</th>
-                    <th>Value</th>
+                    <th>Характеристика</th>
+                    <th>Значення</th>
                 </tr>
                 <tr>
-                    <td><strong>Color:</strong></td>
+                    <td><strong>Колір:</strong></td>
                     <td id="color-value"><?= htmlspecialchars($product['color'] ?? '~') ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Material:</strong></td>
+                    <td><strong>Матеріал:</strong></td>
                     <td id="material-value"><?= htmlspecialchars($product['material'] ?? '~') ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Size:</strong></td>
+                    <td><strong>Розмір:</strong></td>
                     <td id="size-value"><?= htmlspecialchars($product['size'] ?? '~') ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Code:</strong></td>
+                    <td><strong>Код:</strong></td>
                     <td id="code-value"><?= htmlspecialchars($product['code'] ?? '~') ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Metal:</strong></td>
+                    <td><strong>Метал:</strong></td>
                     <td id="metal-value"><?= htmlspecialchars($product['metal'] ?? '~') ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Stone Size:</strong></td>
+                    <td><strong>Розмір камню:</strong></td>
                     <td id="stone_size-value"><?= htmlspecialchars($product['stone_size'] ?? '~') ?></td>
                 </tr>
             </table>
@@ -193,7 +183,6 @@ ob_start();
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    // Оновлення значень на сторінці
                     $('#name-value').text(response.product.name);
                     $('#price-value').text(response.product.price);
                     $('#color-value').text(response.product.color);
@@ -203,11 +192,10 @@ ob_start();
                     $('#metal-value').text(response.product.metal);
                     $('#stone_size-value').text(response.product.stone_size);
 
-                    // Завжди оновлювати зображення
-                    var imageData = response.product.image || ''; // Використовувати порожній рядок, якщо даних зображення немає
+                    var imageData = response.product.image || '';
                     $('#product-img').attr('src', 'data:image/jpeg;base64,' + imageData);
 
-                    alert(response.message); // Відображення повідомлення про успіх
+                    alert(response.message);
                 } else {
                     console.error('Error updating product:', response.error);
                 }
