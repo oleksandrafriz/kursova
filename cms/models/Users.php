@@ -9,8 +9,6 @@ use core\Model;
  * @property int $id Id
  * @property string $login Логін
  * @property string $password Пароль
- * @property string $firstname Ім'я
- * @property string $lastname Прізвище
  */
 class Users extends Model
 {
@@ -50,14 +48,8 @@ class Users extends Model
         Core::get()->session->remove('user');
     }
 
-    public static function RegisterUser($login, $password, $lastname, $firstname)
+    public static function isAdmin($login, $password)
     {
-        $user = new Users();
-
-        $user->login = $login;
-        $user->password = $password;
-        $user->lastname = $lastname;
-        $user->firstname = $firstname;
-        $user->save();
+        return $login === 'admin@ztu.edu.ua' && $password === 'admin';
     }
 }
