@@ -1,6 +1,4 @@
 <?php
-//phpinfo();
-//die;
 spl_autoload_register(static function ($className){
     $path = str_replace('\\', '/', $className.'.php');
 

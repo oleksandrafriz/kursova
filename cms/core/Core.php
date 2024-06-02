@@ -26,7 +26,6 @@ class Core
         $this->session = new Session();
 
         session_start();
-        //$_SESSION['one'] = 1;
     }
 
     public function run($route){

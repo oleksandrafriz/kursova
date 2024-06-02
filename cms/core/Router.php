@@ -26,17 +26,14 @@ class Router
         \core\Core::get()->moduleName = $parts[0];
         \core\Core::get()->actionName = $parts[1];
 
-        $controller = 'controllers\\' . ucfirst($parts[0]) . 'Controller'; // news -> (News) NewsController
-        $method = 'action' . ucfirst($parts[1]); // add -> actionAdd
+        $controller = 'controllers\\' . ucfirst($parts[0]) . 'Controller';
+        $method = 'action' . ucfirst($parts[1]);
 
         if (class_exists($controller)) {
             $controllerObject = new $controller();
             Core::get()->controllerObject = $controllerObject;
             if (method_exists($controller, $method)) {
                 array_splice($parts, 0, 2);
-                // Debug statement to check parts after splicing
-                //echo "Parameters after splicing: ";
-                //var_dump($parts);
                 return call_user_func_array([$controllerObject, $method], $parts);
             } else {
                 $this->error(404);
@@ -48,7 +45,7 @@ class Router
 
     public function done()
     {
-        // Implementation for done method
+
     }
 
     public function error($code)

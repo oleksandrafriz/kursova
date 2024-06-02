@@ -2,7 +2,6 @@
 
 namespace core;
 
-use models\News;
 
 class Model
 {

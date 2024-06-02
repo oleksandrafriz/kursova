@@ -17,7 +17,7 @@ class DB
         );
     }
 
-    public function select($table, $fields = "*", $where = null)
+    public function select($table, $fields = "*", $where = null, $order = null)
     {
         if (is_array($fields)) {
             $fields_string = implode(', ', $fields);
@@ -27,23 +27,37 @@ class DB
             $fields_string = "*";
         }
 
-        $where_string = $this->where($where);
+        $where_string = '';
+        if (is_array($where) && !empty($where)) {
+            $where_string = "WHERE ";
+            $where_fields = array_keys($where);
+            $parts = [];
+            foreach ($where_fields as $field) {
+                $parts[] = "{$field} = :{$field}";
+            }
+            $where_string .= implode(' AND ', $parts);
+        }
 
-        $sql = "SELECT {$fields_string} FROM {$table} {$where_string}";
+        $order_string = '';
+        if (is_string($order) && !empty($order)) {
+            $order_string = " ORDER BY {$order}";
+        }
+
+        $sql = "SELECT {$fields_string} FROM {$table} {$where_string} {$order_string}";
+
         $sth = $this->pdo->prepare($sql);
 
-        // Debugging output
-        //var_dump($sql);
-        if (is_array($where)) {
+        if (is_array($where) && !empty($where)) {
             foreach ($where as $key => $value) {
                 $sth->bindValue(":{$key}", $value);
             }
-            //var_dump($where); // Debugging output to check bound parameters
         }
 
         $sth->execute();
         return $sth->fetchAll();
     }
+
+
 
     protected function where($where)
     {
@@ -65,20 +79,30 @@ class DB
 
 
 
-    public function insert($table, $row_to_insert){
-        $fields_list = implode(", ", array_keys($row_to_insert));
-        $params_array = [];
-        foreach ($row_to_insert as $key => $value) {
-            $params_array [] = ":{$key}";
+    public function insert($table, $row_to_insert)
+    {
+        try {
+            $fields_list = implode(", ", array_keys($row_to_insert));
+            $params_array = [];
+            foreach ($row_to_insert as $key => $value) {
+                $params_array[] = ":{$key}";
+            }
+            $params_list = implode(", ", $params_array);
+            $sql = "INSERT INTO {$table} ({$fields_list}) VALUES ({$params_list})";
+            $sth = $this->pdo->prepare($sql);
+            foreach ($row_to_insert as $key => $value) {
+                $sth->bindValue(":{$key}", $value);
+            }
+            $sth->execute();
+            return $this->pdo->lastInsertId();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return false;
         }
-        $params_list = implode(", ", $params_array);
-        $sql = "INSERT INTO {$table} ({$fields_list}) VALUES ({$params_list})";
-        $sth = $this->pdo->prepare($sql);
-        foreach ($row_to_insert as $key => $value)
-            $sth->bindValue(":{$key}", $value);
-        $sth->execute();
-        return $sth->rowCount();
     }
+
+
+
 
     public function delete($table, $where)
     {
@@ -95,16 +119,40 @@ class DB
         $where_string = $this->where($where);
         $set_array = [];
         foreach ($row_to_update as $key => $value) {
-            $set_array [] = "{$key} = :{$key}";
+            $set_array[] = "{$key} = :{$key}";
         }
         $set_string = implode(", ", $set_array);
         $sql = "UPDATE {$table} SET {$set_string} {$where_string}";
         $sth = $this->pdo->prepare($sql);
-        foreach ($where as $key => $value)
+        foreach ($where as $key => $value) {
             $sth->bindValue(":{$key}", $value);
-        foreach ($row_to_update as $key => $value)
+        }
+        foreach ($row_to_update as $key => $value) {
             $sth->bindValue(":{$key}", $value);
+        }
         $sth->execute();
         return $sth->rowCount();
     }
+
+
+    public function save()
+    {
+        $isInsert = false;
+        if (!isset($this->id)) {
+            $isInsert = true;
+        } else {
+            $value = $this->id;
+            if (empty($value)) {
+                $isInsert = true;
+            }
+        }
+
+        if ($isInsert) {
+            Core::get()->db->insert(static::$tableName, $this->fieldsArray);
+        } else {
+            Core::get()->db->update(static::$tableName, $this->fieldsArray, ['id' => $this->id]);
+        }
+    }
+
+
 }
